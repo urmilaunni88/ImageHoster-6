@@ -53,6 +53,7 @@ public class ImageController {
         Image image = imageService.getImageByTitle(imageId,title);
         model.addAttribute("image", image);
         model.addAttribute("tags", image.getTags());
+        model.addAttribute("comments", image.getComments());
         return "images/image";
     }
 
@@ -110,6 +111,9 @@ public class ImageController {
 			String tags = convertTagsToString(image.getTags());
 			model.addAttribute("image", image);
 			model.addAttribute("tags", tags);
+
+			model.addAttribute("comments", image.getComments());
+
 			return "images/edit";
 		}
 	}
@@ -152,31 +156,35 @@ public class ImageController {
     //This controller method is called when the request pattern is of type 'deleteImage' and also the incoming request is of DELETE type
     //The method calls the deleteImage() method in the business logic passing the id of the image to be deleted
     //Looks for a controller method with request mapping of type '/images'
-    @RequestMapping(value = "/deleteImage", method = RequestMethod.DELETE)
-    public String deleteImageSubmit(@RequestParam(name = "imageId") Integer imageId,HttpSession session,Model model) {
-    	User user = (User) session.getAttribute("loggeduser");
-    	
-    	Image image = imageService.getImage(imageId);
-    	
-    	if(user.getId()!=image.getUser().getId()) {
-    		
-    		String deleteError = "Only the owner of the image can delete the image";
-    		
-    		model.addAttribute("deleteError",deleteError);
-    		model.addAttribute("image", image);
-    		model.addAttribute("tags", image.getTags());
-    		
-    		return "images/image";
-    		
-    	
-    	}else {
-    		
-    		
-    		imageService.deleteImage(imageId);
-    		return "redirect:/images";
-    	}
-    	
-    }
+
+	@RequestMapping(value = "/deleteImage", method = RequestMethod.DELETE)
+	public String deleteImageSubmit(
+			@RequestParam(name = "imageId") Integer imageId,
+			HttpSession session, Model model) {
+		User user = (User) session.getAttribute("loggeduser");
+
+		Image image = imageService.getImage(imageId);
+
+		if (user.getId() != image.getUser().getId()) {
+
+			String deleteError = "Only the owner of the image can delete the image";
+
+			model.addAttribute("deleteError", deleteError);
+			model.addAttribute("image", image);
+			model.addAttribute("tags", image.getTags());
+			model.addAttribute("comments", image.getComments());
+
+			return "images/image";
+
+		} else {
+
+			imageService.deleteImage(imageId);
+			return "redirect:/images";
+		}
+
+	}
+
+   
 
 
     //This method converts the image to Base64 format
