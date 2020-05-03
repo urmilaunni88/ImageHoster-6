@@ -11,25 +11,23 @@ import ImageHoster.model.Comment;
 
 @Repository
 public class CommentsRepository {
-	
 
-    //Get an instance of EntityManagerFactory from persistence unit with name as 'imageHoster'
-    @PersistenceUnit(unitName = "imageHoster")
-    private EntityManagerFactory emf;
+  // Get an instance of EntityManagerFactory from persistence unit with name as 'imageHoster'
+  @PersistenceUnit(unitName = "imageHoster")
+  private EntityManagerFactory emf;
 
-    public Comment insertComment(Comment comment) {
+  public Comment insertComment(Comment comment) {
 
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction transaction = em.getTransaction();
+    EntityManager em = emf.createEntityManager();
+    EntityTransaction transaction = em.getTransaction();
 
-        try {
-            transaction.begin();
-            em.persist(comment);
-            transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
-        }
-        return comment;
+    try {
+      transaction.begin();
+      em.persist(comment);
+      transaction.commit();
+    } catch (Exception e) {
+      transaction.rollback();
     }
-
+    return comment;
+  }
 }

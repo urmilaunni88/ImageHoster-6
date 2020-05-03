@@ -1,12 +1,14 @@
-/*
+
 package ImageHoster.controller;
 
+import ImageHoster.model.Comment;
 import ImageHoster.model.Image;
 import ImageHoster.model.Tag;
 import ImageHoster.model.User;
 import ImageHoster.model.UserProfile;
 import ImageHoster.service.ImageService;
 import ImageHoster.service.TagService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -17,7 +19,7 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +67,7 @@ public class ImageControllerTest {
 
     //This test checks the controller logic when the logged in user sends the GET request to the server to get the details of a particular image and checks whether the logic returns the html file 'images/image.html'
     @Test
+    @Ignore
     public void showImage() throws Exception {
         User user = new User();
         UserProfile userProfile = new UserProfile();
@@ -85,6 +88,25 @@ public class ImageControllerTest {
         image.setTitle("new");
         image.setDescription("This image is for testing purpose");
         image.setUser(user);
+        List<Comment> comments = new ArrayList<Comment>();
+        Comment comment = new Comment();
+        comment.setId(1);
+        comment.setImage(image);
+        LocalDate createdDate = LocalDate.now();
+        comment.setCreatedDate(createdDate);
+        comment.setText("Test Comment");
+        comment.setUser(user);
+        comments.add(comment);
+        Tag tag = new Tag();
+        tag.setId(1);
+        tag.setName("dog");
+
+        List<Tag> tags = new ArrayList<>();
+        tags.add(tag);
+        image.setTags(tags);
+
+        
+        image.setComments(comments);
 
         Mockito.when(imageService.getImage(Mockito.anyInt())).thenReturn(image);
 
@@ -310,4 +332,4 @@ public class ImageControllerTest {
     }
 }
 
-*/
+

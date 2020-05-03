@@ -6,15 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CommentsService {
+public class CommentService {
 
-	@Autowired
-	CommentsRepository commentsRepository;
+  @Autowired
+  CommentsRepository commentsRepository;
 
-	public Comment insertComment(Comment comment) {
-		return commentsRepository.insertComment(comment);
-	}
-
+  public Comment insertComment(Comment comment) {
+    return commentsRepository.insertComment(comment);
+  }
 }
-
-
